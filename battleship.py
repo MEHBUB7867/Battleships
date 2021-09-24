@@ -1,3 +1,4 @@
+from random import randint
 """
 Battleship Project
 Name:MEHBUB
@@ -77,8 +78,19 @@ Parameters: no parameters
 Returns: 2D list of ints
 '''
 def createShip():
-    return
-
+    row=randint(1,8)
+    cols=randint(1,8)
+    direction=randint(0,1)
+    if(direction==1):
+        c1=[]                    
+        for i in range(row-1,row+2,1):
+            c1.append([i,cols])
+    else:
+        c1=[]       
+        for i in range(cols-1,cols+2,1):
+            c1.append([row,i])
+    return c1
+    
 
 '''
 checkShip(grid, ship)
@@ -275,6 +287,7 @@ def runSimulation(w, h):
 # This code runs the test cases to check your work
 if __name__ == "__main__":
 
-    test.testEmptyGrid() 
+    #test.testEmptyGrid() 
+    test.testCreateShip()
     ## Finally, run the simulation to test it manually ##
     #runSimulation(500, 500)
