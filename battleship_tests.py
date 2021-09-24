@@ -1,5 +1,4 @@
 from battleship import *
-
 ### SUPPLEMENTAL TEST FUNCTIONS ###
 
 def testGrid(): # Used in Week 1
@@ -37,7 +36,6 @@ def testEmptyGrid():
     g[0][1] = "foo"
     assert(g[1][1] != "foo")
     print("... done!")
-
 def testCreateShip():
     print("Testing createShip()...", end="")
     ship = createShip()
