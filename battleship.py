@@ -115,7 +115,7 @@ def addShips(grid, numShips):
     board=grid
     count=0
     while count<numShips:
-        ship=createShip()
+        ship=createShip() # ship variable is assigned with the create ship function
         if (checkShip(board,ship)):
             for i in range(len(ship)):
                 board[ship[i][0]][ship[i][1]]=SHIP_UNCLICKED
