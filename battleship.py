@@ -100,12 +100,10 @@ Returns: bool
 def checkShip(grid, ship):
     count=0
     for i in ship:
-        if(grid[i[0]][i[1]]==1):
-            count+=1
-            if(count==3):
-                return True
-        else:
+        if(grid[i[0]][i[1]]!=1):
             return False
+        else:
+            return True
 '''
 addShips(grid, numShips)
 Parameters: 2D list of ints ; int
