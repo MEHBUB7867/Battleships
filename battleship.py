@@ -98,7 +98,7 @@ Parameters: 2D list of ints ; 2D list of ints
 Returns: bool
 '''
 def checkShip(grid, ship):
-    count=0
+    count=0 #number of coordinates
     for i in ship:
         if(grid[i[0]][i[1]]==1):
             count+=1
@@ -116,7 +116,7 @@ def addShips(grid, numShips):
     count=0
     while count<numShips:
         ship=createShip()
-        if checkShip(board,ship)==True:
+        if (checkShip(board,ship)):
             for i in range(len(ship)):
                 board[ship[i][0]][ship[i][1]]=SHIP_UNCLICKED
             count+=1
