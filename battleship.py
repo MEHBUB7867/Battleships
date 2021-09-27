@@ -82,14 +82,14 @@ def createShip():
     cols=randint(1,8)
     direction=randint(0,1)
     if(direction==1):
-        c1=[]                    
+        ship=[]                    
         for i in range(row-1,row+2,1):
-            c1.append([i,cols])
+            ship.append([i,cols])
     else:
-        c1=[]       
+        ship=[]       
         for i in range(cols-1,cols+2,1):
-            c1.append([row,i])
-    return c1
+            ship.append([row,i])
+    return ship
     
 
 '''
