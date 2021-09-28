@@ -6,7 +6,6 @@ Roll No:
 """
 
 import battleship_tests as test
-
 project = "Battleship" # don't edit this
 
 ### SIMULATION FUNCTIONS ###
@@ -112,30 +111,25 @@ checkShip(grid, ship)
 Parameters: 2D list of ints ; 2D list of ints
 Returns: bool
 '''
-def checkShip(grid, ship):
-    count=0 #number of coordinates
-    for i in ship:
-        if(grid[i[0]][i[1]]==1):
-            count+=1
-            if(count==3):
-                return True
-        else:
+def checkShip(grid, ship): 
+    for i in range(len(ship)):
+        if(grid[i[0]][i[1]]!=1):
             return False
+        return True
 '''
 addShips(grid, numShips)
 Parameters: 2D list of ints ; int
 Returns: 2D list of ints
 '''
 def addShips(grid, numShips):
-    board=grid
     count=0
     while count<numShips:
         ship=createShip() # ship variable is assigned with the create ship function
-        if (checkShip(board,ship)):
+        if (checkShip(grid,ship)):
             for i in range(len(ship)):
-                board[ship[i][0]][ship[i][1]]=SHIP_UNCLICKED
+                grid[ship[i][0]][ship[i][1]]=SHIP_UNCLICKED
             count+=1
-    return board
+    return grid
 
 
 '''
@@ -144,6 +138,12 @@ Parameters: dict mapping strs to values ; Tkinter canvas ; 2D list of ints ; boo
 Returns: None
 '''
 def drawGrid(data, canvas, grid, showShips):
+    grid=canvas.create_rectangle(data["rows"],data["columns"])
+    for i in grid:
+        if (grid[[i][0]][i[i][1]]==SHIP_UNCLICKED):
+            grid=canvas.create_rectangle(data["boardsize"],data["cellsize"],fill="yellow")
+        else:
+            grid=canvas.create_rectangle(data["boardsize"],data["cellsize"],fill="blue")
     return
 
 
@@ -314,8 +314,9 @@ def runSimulation(w, h):
 
 # This code runs the test cases to check your work
 if __name__ == "__main__":
+    test.testDrawGrid()
 
-    test.testMakeModel()
+    #test.testMakeModel()
     #test.testEmptyGrid() 
     #test.testCreateShip()
     #test.testCheckShip()
