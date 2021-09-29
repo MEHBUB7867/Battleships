@@ -1,11 +1,11 @@
+from random import randint
 """
 Battleship Project
-Name:
+Name:MEHBUB
 Roll No:
 """
 
 import battleship_tests as test
-
 project = "Battleship" # don't edit this
 
 ### SIMULATION FUNCTIONS ###
@@ -25,8 +25,24 @@ Parameters: dict mapping strs to values
 Returns: None
 '''
 def makeModel(data):
+    data["rows"]=10
+    data["cols"]=10
+    data["boardsize"]=500
+    data["cellsize"]=50
+    data["numships"]=5
+    data["Computerboard"]=[[]]
+    data["Userboard"]=[[]]
+    data["Computerboard"]=emptyGrid(data["rows"],data["cols"])
+    data["Userboard"]=emptyGrid(data["rows"],data["cols"])
+    data["Computerboard"]=addShips(data["Computerboard"],data["numships"])
+    data["Userboard"]=addShips(data["Userboard"],data["numships"])
     return
-
+# rows=10
+    # columns=10
+    # boardsize=500
+    # cellsize=50
+    # numships=5
+    
 
 '''
 makeView(data, userCanvas, compCanvas)
@@ -34,6 +50,8 @@ Parameters: dict mapping strs to values ; Tkinter canvas ; Tkinter canvas
 Returns: None
 '''
 def makeView(data, userCanvas, compCanvas):
+    drawGrid(data,userCanvas,data["Userboard"],True)
+    drawGrid(data,compCanvas,data["Computerboard"],True)
     return
 
 
@@ -62,7 +80,13 @@ Parameters: int ; int
 Returns: 2D list of ints
 '''
 def emptyGrid(rows, cols):
-    return
+    grid=[]
+    for i in range(rows):
+        columnlist = []
+        for j in range(cols):
+            columnlist.append(EMPTY_UNCLICKED)
+        grid.append(columnlist)
+    return grid
 
 
 '''
@@ -71,25 +95,44 @@ Parameters: no parameters
 Returns: 2D list of ints
 '''
 def createShip():
-    return
-
+    row=randint(1,8)
+    cols=randint(1,8)
+    direction=randint(0,1)
+    if(direction==1):
+        c1=[]                    
+        for i in range(row-1,row+2,1):
+            c1.append([i,cols])
+    else:
+        c1=[]       
+        for i in range(cols-1,cols+2,1):
+            c1.append([row,i])
+    return c1
+    
 
 '''
 checkShip(grid, ship)
 Parameters: 2D list of ints ; 2D list of ints
 Returns: bool
 '''
-def checkShip(grid, ship):
-    return
-
-
+def checkShip(grid, ship): 
+    for i in range(len(ship)):
+        if grid[ship[i][0]][ship[i][1]]!=EMPTY_UNCLICKED:
+            return False
+    return True
 '''
 addShips(grid, numShips)
 Parameters: 2D list of ints ; int
 Returns: 2D list of ints
 '''
 def addShips(grid, numShips):
-    return
+    count=0
+    while count<numShips:
+        ship=createShip() # ship variable is assigned with the create ship function
+        if (checkShip(grid,ship)):
+            for i in range(len(ship)):
+                grid[ship[i][0]][ship[i][1]]=SHIP_UNCLICKED
+            count+=1
+    return grid
 
 
 '''
@@ -98,7 +141,49 @@ Parameters: dict mapping strs to values ; Tkinter canvas ; 2D list of ints ; boo
 Returns: None
 '''
 def drawGrid(data, canvas, grid, showShips):
+    for i in range(0,data["rows"],1):
+        for j in range(0,data["cols"],1):
+                x1=data["cellsize"]*j
+                y1=data["cellsize"]*i
+                x2=x1+data["cellsize"]
+                y2=y1+data["cellsize"]
+                canvas.create_rectangle(x1,y1,x2,y2,outline='black',fill='blue')
+                if(grid[i][j]==SHIP_UNCLICKED):
+                    x3=data["cellsize"]*j
+                    y3=data["cellsize"]*i
+                    x4=x3+data["cellsize"]
+                    y4=y3+data["cellsize"]
+                    canvas.create_rectangle(x3,y3,x4,y4,outline='black',fill='yellow')
+
     return
+
+    #grid=canvas.create_rectangle(data["rows"],data["columns"])
+    # row=data["rows" and "cols"]
+    # column=data["rows" and "cols"]
+    # cell=data["cellsize"]
+    # for i in range(data["rows" and "cols"]):
+    #     for j in range(data["rows" and "cols"]):
+    #         # if showShips==True:
+    #         #     x='yellow'
+            
+            
+    #         if grid[i][j]==SHIP_UNCLICKED:
+                
+    #             canvas.create_rectangle(x1,y1,x3,y3,outline='black',
+    #             fill="blue") 
+    #         x1=50*j 
+    #         x3=x1+50
+    #         y1=50*i 
+    #         y3=y1+50    
+               
+    #     canvas.create_rectangle(x1,y1,x3,y3,outline='black')
+    # return        
+    # for i in grid:
+    #     if (grid[[i][0]][i[i][1]]==SHIP_UNCLICKED):
+    #         grid=canvas.create_rectangle(data["boardsize"],data["cellsize"],fill="yellow")
+    #     else:
+    #         grid=canvas.create_rectangle(data["boardsize"],data["cellsize"],fill="blue")
+    
 
 
 ### WEEK 2 ###
@@ -268,6 +353,14 @@ def runSimulation(w, h):
 
 # This code runs the test cases to check your work
 if __name__ == "__main__":
+    #test.testGrid()
+    #test.testDrawGrid()
+    test.week1Tests()
 
+    #test.testMakeModel()
+    #test.testEmptyGrid() 
+    #test.testCreateShip()
+    #test.testCheckShip()
+    #test.testAddShips()
     ## Finally, run the simulation to test it manually ##
     runSimulation(500, 500)
