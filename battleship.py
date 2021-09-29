@@ -50,8 +50,8 @@ Parameters: dict mapping strs to values ; Tkinter canvas ; Tkinter canvas
 Returns: None
 '''
 def makeView(data, userCanvas, compCanvas):
-    drawGrid(data,userCanvas,data["Userboard"],True)
-    drawGrid(data,compCanvas,data["Computerboard"],True)
+    drawGrid(data,userCanvas,data["Userboard"],True) # grid for userboard
+    drawGrid(data,compCanvas,data["Computerboard"],True) # grid for computerboard
     return
 
 
