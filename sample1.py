@@ -1,3 +1,4 @@
+
 # d = { "apples" : 5, "beets" : 2, "lemons" : 1 }
 # total=0
 # for k in d:
