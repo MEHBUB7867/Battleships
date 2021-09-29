@@ -96,14 +96,14 @@ def createShip():
     cols=randint(1,8)
     direction=randint(0,1)
     if(direction==1):
-        c1=[]                    
+        ship=[]                    
         for i in range(row-1,row+2,1):
-            c1.append([i,cols])
+            ship.append([i,cols])
     else:
-        c1=[]       
+        ship=[]       
         for i in range(cols-1,cols+2,1):
-            c1.append([row,i])
-    return c1
+            ship.append([row,i])
+    return ship
     
 
 '''
@@ -111,17 +111,20 @@ checkShip(grid, ship)
 Parameters: 2D list of ints ; 2D list of ints
 Returns: bool
 '''
-def checkShip(grid, ship): 
-    for i in range(len(ship)):
+
+def checkShip(grid, ship):
+  for i in range(len(ship)):
         if grid[ship[i][0]][ship[i][1]]!=EMPTY_UNCLICKED:
             return False
     return True
+
 '''
 addShips(grid, numShips)
 Parameters: 2D list of ints ; int
 Returns: 2D list of ints
 '''
 def addShips(grid, numShips):
+
     count=0
     while count<numShips:
         ship=createShip() # ship variable is assigned with the create ship function
