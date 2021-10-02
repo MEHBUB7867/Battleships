@@ -212,7 +212,7 @@ Parameters: dict mapping strs to values ; mouse event object
 Returns: list of ints
 '''
 def getClickedCell(data, event):
-    return
+     return [int(event.y/data["cellsize"]),int(event.x/data["cellsize"])]
 
 
 '''
@@ -353,9 +353,10 @@ def runSimulation(w, h):
 
 # This code runs the test cases to check your work
 if __name__ == "__main__":
+    test.testGetClickedCell()
     #test.testGrid()
     #test.testDrawGrid()
-    test.week1Tests()
+    #test.week1Tests()
 
     #test.testMakeModel()
     #test.testEmptyGrid() 
