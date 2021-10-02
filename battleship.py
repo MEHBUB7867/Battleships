@@ -33,9 +33,12 @@ def makeModel(data):
     data["Computerboard"]=[[]]
     data["Userboard"]=[[]]
     data["Computerboard"]=emptyGrid(data["rows"],data["cols"])
+    #data["Userboard"]=test.testShip()
     data["Userboard"]=emptyGrid(data["rows"],data["cols"])
     data["Computerboard"]=addShips(data["Computerboard"],data["numships"])
-    data["Userboard"]=addShips(data["Userboard"],data["numships"])
+    #data["Userboard"]=addShips(data["Userboard"],data["numships"])
+    data["TemporaryShip"]=[]
+    data["noofshipsadded"]=0
     return
 # rows=10
     # columns=10
@@ -52,6 +55,7 @@ Returns: None
 def makeView(data, userCanvas, compCanvas):
     drawGrid(data,userCanvas,data["Userboard"],True) # grid for userboard
     drawGrid(data,compCanvas,data["Computerboard"],True) # grid for computerboard
+    drawShip(data,userCanvas,data["TemporaryShip"])
     return
 
 
@@ -69,7 +73,7 @@ mousePressed(data, event, board)
 Parameters: dict mapping strs to values ; mouse event object ; 2D list of ints
 Returns: None
 '''
-def mousePressed(data, event, board):
+def mousePressed(data, event, board):         
     pass
 
 #### WEEK 1 ####
@@ -143,18 +147,20 @@ Returns: None
 def drawGrid(data, canvas, grid, showShips):
     for i in range(0,data["rows"],1):
         for j in range(0,data["cols"],1):
+                if(grid[i][j]==SHIP_UNCLICKED):
+                    y='yellow'
+                else:
+                    y='blue'
                 x1=data["cellsize"]*j
                 y1=data["cellsize"]*i
                 x2=x1+data["cellsize"]
                 y2=y1+data["cellsize"]
-                canvas.create_rectangle(x1,y1,x2,y2,outline='black',fill='blue')
-                if(grid[i][j]==SHIP_UNCLICKED):
-                    x3=data["cellsize"]*j
-                    y3=data["cellsize"]*i
-                    x4=x3+data["cellsize"]
-                    y4=y3+data["cellsize"]
-                    canvas.create_rectangle(x3,y3,x4,y4,outline='black',fill='yellow')
-
+                canvas.create_rectangle(x1,y1,x2,y2,outline='black',fill=y)
+                    # x3=data["cellsize"]*j
+                    # y3=data["cellsize"]*i
+                    # x4=x3+data["cellsize"]
+                    # y4=y3+data["cellsize"]
+                    #canvas.create_rectangle(x3,y3,x4,y4,outline='black',fill='yellow')
     return
 
     #grid=canvas.create_rectangle(data["rows"],data["columns"])
@@ -194,16 +200,37 @@ Parameters: 2D list of ints
 Returns: bool
 '''
 def isVertical(ship):
-    return
-
-
+    col=ship[0][1]
+    for i in range(len(ship)):
+        if(ship[i][1]!=col):
+            return False 
+    row=[]
+    for i in range(len(ship)):
+        row.append(ship[i][0])
+    row.sort()
+    for i in range(len(row)-1):
+        if 1+row[i]!=row[i+1]:
+            return False
+    return True
+    
 '''
 isHorizontal(ship)
 Parameters: 2D list of ints
 Returns: bool
 '''
 def isHorizontal(ship):
-    return
+    row=ship[0][0]
+    col=[]
+    for i in range(len(ship)):
+        if(ship[i][0]!=row):
+            return False 
+    for i in range(len(ship)):
+        col.append(ship[i][1])
+    col.sort()
+    for i in range(len(col)-1):
+        if 1+col[i]!=col[i+1]:
+            return False
+    return True
 
 
 '''
@@ -214,13 +241,12 @@ Returns: list of ints
 def getClickedCell(data, event):
     return
 
-
 '''
 drawShip(data, canvas, ship)
 Parameters: dict mapping strs to values ; Tkinter canvas; 2D list of ints
 Returns: None
 '''
-def drawShip(data, canvas, ship):
+def drawShip(data, canvas, ship): 
     return
 
 
@@ -231,7 +257,6 @@ Returns: bool
 '''
 def shipIsValid(grid, ship):
     return
-
 
 '''
 placeShip(data)
@@ -249,7 +274,6 @@ Returns: None
 '''
 def clickUserBoard(data, row, col):
     return
-
 
 ### WEEK 3 ###
 
@@ -353,14 +377,20 @@ def runSimulation(w, h):
 
 # This code runs the test cases to check your work
 if __name__ == "__main__":
+    test.testIsHorizontal()
+    #test.testIsVertical()
+    #test.testShipIsValid()
+    #test.testDrawShip()
+    #test.testGetClickedCell()
+    #test.testIsHorizontal()
     #test.testGrid()
     #test.testDrawGrid()
-    test.week1Tests()
-
+    #test.week1Tests()
+    #test.testIsVertical()
     #test.testMakeModel()
     #test.testEmptyGrid() 
     #test.testCreateShip()
     #test.testCheckShip()
     #test.testAddShips()
     ## Finally, run the simulation to test it manually ##
-    runSimulation(500, 500)
+    #runSimulation(500, 500)
