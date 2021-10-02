@@ -222,11 +222,11 @@ Returns: None
 '''
 def drawShip(data, canvas, ship):
     for i in range(len(ship)):
-        x1=50*ship[i][1]
-        y1=50*ship[i][0]
-        x2=x1+50
-        y2=y1+50
-        canvas.create_rectangle(x1,y1,x2,y2,fill='white') 
+        shipcorx1=50*ship[i][1]
+        shipcory1=50*ship[i][0]
+        shipcorx2=shipcorx1+50
+        shipcory2=shipcory1+50
+        canvas.create_rectangle(shipcorx1,shipcory1,shipcorx2,shipcory2,fill='white') 
     return
 
 
