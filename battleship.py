@@ -221,6 +221,12 @@ Parameters: dict mapping strs to values ; Tkinter canvas; 2D list of ints
 Returns: None
 '''
 def drawShip(data, canvas, ship):
+    for i in range(len(ship)):
+        x1=50*ship[i][1]
+        y1=50*ship[i][0]
+        x2=x1+50
+        y2=y1+50
+        canvas.create_rectangle(x1,y1,x2,y2,fill='white') 
     return
 
 
@@ -355,7 +361,8 @@ def runSimulation(w, h):
 if __name__ == "__main__":
     #test.testGrid()
     #test.testDrawGrid()
-    test.week1Tests()
+    #test.week1Tests()
+    test.testDrawShip()
 
     #test.testMakeModel()
     #test.testEmptyGrid() 
