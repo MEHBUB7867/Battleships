@@ -269,6 +269,15 @@ Parameters: dict mapping strs to values
 Returns: None
 '''
 def placeShip(data):
+    userboard=data["Userboard"]
+    tempship=data["TemporaryShip"]
+    if shipIsValid(userboard,tempship):
+        for i in range(len(tempship)):
+            userboard[tempship[i][0]][tempship[i][1]]=SHIP_UNCLICKED
+        data["noofshipsadded"]=data["noofshipsadded"]+1
+    else:
+        print("Ship is not valid")
+    tempship=[]
     return
 
 
@@ -387,7 +396,7 @@ if __name__ == "__main__":
     #test.testDrawGrid()
     #test.week1Tests()
     #test.testDrawShip()
-    test.testShipIsValid()
+    #test.testShipIsValid()
 
     #test.testMakeModel()
     #test.testEmptyGrid() 
