@@ -347,9 +347,8 @@ Parameters: dict mapping strs to values ; int ; int
 Returns: None
 '''
 def runGameTurn(data, row, col):
-    x=data["Computerboard"]
-    
-    if(x[row][col]==SHIP_UNCLICKED or x[row][col]==EMPTY_UNCLICKED):
+    compuboa=data["Computerboard"]
+    if(compuboa[row][col]==SHIP_UNCLICKED or compuboa[row][col]==EMPTY_UNCLICKED):
         updateBoard(data,x,row,col,"user")
     return
 
