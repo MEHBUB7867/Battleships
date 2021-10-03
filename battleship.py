@@ -35,7 +35,9 @@ def makeModel(data):
     data["Computerboard"]=emptyGrid(data["rows"],data["cols"])
     data["Userboard"]=emptyGrid(data["rows"],data["cols"])
     data["Computerboard"]=addShips(data["Computerboard"],data["numships"])
-    data["Userboard"]=addShips(data["Userboard"],data["numships"])
+    #data["Userboard"]=addShips(data["Userboard"],data["numships"])
+    data["TemporaryShip"]=[]
+    data["noofshipsadded"]=0
     return
 # rows=10
     # columns=10
@@ -52,6 +54,7 @@ Returns: None
 def makeView(data, userCanvas, compCanvas):
     drawGrid(data,userCanvas,data["Userboard"],True) # grid for userboard
     drawGrid(data,compCanvas,data["Computerboard"],True) # grid for computerboard
+    drawShip(data,userCanvas,data["TemporaryShip"])
     return
 
 
@@ -70,6 +73,9 @@ Parameters: dict mapping strs to values ; mouse event object ; 2D list of ints
 Returns: None
 '''
 def mousePressed(data, event, board):
+    position=getClickedCell(data,event)     
+    if(board=="user"):
+        clickUserBoard(data,position[0],position[1])
     pass
 
 #### WEEK 1 ####
@@ -143,18 +149,15 @@ Returns: None
 def drawGrid(data, canvas, grid, showShips):
     for i in range(0,data["rows"],1):
         for j in range(0,data["cols"],1):
-                x1=data["cellsize"]*j
-                y1=data["cellsize"]*i
-                x2=x1+data["cellsize"]
-                y2=y1+data["cellsize"]
-                canvas.create_rectangle(x1,y1,x2,y2,outline='black',fill='blue')
-                if(grid[i][j]==SHIP_UNCLICKED):
-                    x3=data["cellsize"]*j
-                    y3=data["cellsize"]*i
-                    x4=x3+data["cellsize"]
-                    y4=y3+data["cellsize"]
-                    canvas.create_rectangle(x3,y3,x4,y4,outline='black',fill='yellow')
-
+            if(grid[i][j]==SHIP_UNCLICKED):
+                    y='yellow'
+            else:
+                y='blue'
+            x1=data["cellsize"]*j
+            y1=data["cellsize"]*i
+            x2=x1+data["cellsize"]
+            y2=y1+data["cellsize"]
+            canvas.create_rectangle(x1,y1,x2,y2,outline='black',fill=y)
     return
 
     #grid=canvas.create_rectangle(data["rows"],data["columns"])
@@ -258,8 +261,12 @@ Parameters: 2D list of ints ; 2D list of ints
 Returns: bool
 '''
 def shipIsValid(grid, ship):
-    if(checkShip(grid,ship)&(isVertical(ship)|isHorizontal(ship))):
-        return True
+    if(len(ship)==3):
+        if(checkShip(grid,ship)==True):
+            if(isVertical(ship)==True):
+                return True
+            elif(isHorizontal(ship)==True):
+                return True
     else:
         return False
 
@@ -269,15 +276,15 @@ Parameters: dict mapping strs to values
 Returns: None
 '''
 def placeShip(data):
-    userboard=data["Userboard"]
+    userboar=data["Userboard"]
     tempship=data["TemporaryShip"]
-    if shipIsValid(userboard,tempship):
+    if shipIsValid(userboar,tempship):
         for i in range(len(tempship)):
-            userboard[tempship[i][0]][tempship[i][1]]=SHIP_UNCLICKED
+            userboar[tempship[i][0]][tempship[i][1]]=SHIP_UNCLICKED
         data["noofshipsadded"]=data["noofshipsadded"]+1
     else:
         print("Ship is not valid")
-    tempship=[]
+    data["TemporaryShip"]=[]
     return
 
 
@@ -287,17 +294,6 @@ Parameters: dict mapping strs to values ; int ; int
 Returns: None
 '''
 def clickUserBoard(data, row, col):
-    return
-
-
-### WEEK 3 ###
-
-'''
-updateBoard(data, board, row, col, player)
-Parameters: dict mapping strs to values ; 2D list of ints ; int ; int ; str
-Returns: None
-'''
-def updateBoard(data, board, row, col, player):
     userShip = data["TemporaryShip"]
     userCoordinates = [row, col]
     numUserShip = data["noofshipsadded"]
@@ -318,7 +314,23 @@ def updateBoard(data, board, row, col, player):
     #checking No of ships added
     if numUserShip == 5:
         print("Ships are ready to fire")
+    return
 
+
+### WEEK 3 ###
+
+'''
+updateBoard(data, board, row, col, player)
+Parameters: dict mapping strs to values ; 2D list of ints ; int ; int ; str
+Returns: None
+'''
+def updateBoard(data, board, row, col, player):
+    for i in range(row+1):
+        for j in range(col+1):
+            if(board[i][j]==SHIP_UNCLICKED):
+                board[i][j]=SHIP_CLICKED
+            if(board[i][j]==EMPTY_UNCLICKED):
+                board[i][j]=EMPTY_CLICKED
     return
 
 
@@ -413,6 +425,7 @@ def runSimulation(w, h):
 
 # This code runs the test cases to check your work
 if __name__ == "__main__":
+    test.testUpdateBoard()
     #test.testGrid()
     #test.testDrawGrid()
     #test.week1Tests()
