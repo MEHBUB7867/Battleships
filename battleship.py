@@ -53,7 +53,7 @@ Returns: None
 '''
 def makeView(data, userCanvas, compCanvas):
     drawGrid(data,userCanvas,data["Userboard"],True) # grid for userboard
-    drawGrid(data,compCanvas,data["Computerboard"],True) # grid for computerboard
+    drawGrid(data,compCanvas,data["Computerboard"],False) # grid for computerboard
     drawShip(data,userCanvas,data["TemporaryShip"])
     return
 
@@ -76,6 +76,8 @@ def mousePressed(data, event, board):
     position=getClickedCell(data,event)     
     if(board=="user"):
         clickUserBoard(data,position[0],position[1])
+    if((board=="comp") and (data["numships"]==5)):
+        runGameTurn(data,position[0],position[1])
     pass
 
 #### WEEK 1 ####
@@ -150,9 +152,15 @@ def drawGrid(data, canvas, grid, showShips):
     for i in range(0,data["rows"],1):
         for j in range(0,data["cols"],1):
             if(grid[i][j]==SHIP_UNCLICKED):
-                    y='yellow'
+                y='yellow'
+            elif(grid[i][j]==SHIP_CLICKED):
+                y='red'
+            elif(grid[i][j]==EMPTY_CLICKED):
+                y='white'
             else:
                 y='blue'
+                #if(grid[i][j]==SHIP_UNCLICKED&showShips==False):
+                    
             x1=data["cellsize"]*j
             y1=data["cellsize"]*i
             x2=x1+data["cellsize"]
@@ -325,12 +333,11 @@ Parameters: dict mapping strs to values ; 2D list of ints ; int ; int ; str
 Returns: None
 '''
 def updateBoard(data, board, row, col, player):
-    for i in range(row+1):
-        for j in range(col+1):
-            if(board[i][j]==SHIP_UNCLICKED):
-                board[i][j]=SHIP_CLICKED
-            if(board[i][j]==EMPTY_UNCLICKED):
-                board[i][j]=EMPTY_CLICKED
+   
+    if(board[row][col]==SHIP_UNCLICKED):
+        board[row][col]=SHIP_CLICKED
+    elif(board[row][col]==EMPTY_UNCLICKED):
+        board[row][col]=EMPTY_CLICKED
     return
 
 
@@ -425,7 +432,7 @@ def runSimulation(w, h):
 
 # This code runs the test cases to check your work
 if __name__ == "__main__":
-    test.testUpdateBoard()
+    #test.testUpdateBoard()
     #test.testGrid()
     #test.testDrawGrid()
     #test.week1Tests()
