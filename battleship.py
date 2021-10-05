@@ -59,6 +59,10 @@ def makeView(data, userCanvas, compCanvas):
     drawGrid(data,userCanvas,data["Userboard"],True) # grid for userboard
     drawGrid(data,compCanvas,data["Computerboard"],False) # grid for computerboard
     drawShip(data,userCanvas,data["TemporaryShip"])
+    if(data["winner"]=="user"):
+        drawGameOver(data,userCanvas)
+    elif(data["winner"]=="computer"):
+        drawGameOver(data,compCanvas)
     return
 
 
@@ -68,7 +72,8 @@ Parameters: dict mapping strs to values ; key event object
 Returns: None
 '''
 def keyPressed(data, event):
-    pass
+    if(event):
+        makeModel(data)
 
 
 '''
@@ -78,9 +83,10 @@ Returns: None
 '''
 def mousePressed(data, event, board):
     position=getClickedCell(data,event)     
-    if(board=="user"):
+    if(board=="user" and data["winner"]!=None):
         clickUserBoard(data,position[0],position[1])
-    pass
+    if((board=="comp") and (data["numships"]==5)):
+        runGameTurn(data,position[0],position[1])
 
 #### WEEK 1 ####
 
