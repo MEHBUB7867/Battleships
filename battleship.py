@@ -61,8 +61,11 @@ def makeView(data, userCanvas, compCanvas):
     drawShip(data,userCanvas,data["TemporaryShip"])
     if(data["winner"]=="user"):
         drawGameOver(data,userCanvas)
-    elif(data["winner"]=="computer"):
+    elif(data["winner"]=="comp"):
         drawGameOver(data,compCanvas)
+    else:
+        drawGameOver(data,compCanvas)
+        drawGameOver(data,userCanvas)
     return
 
 
@@ -82,11 +85,12 @@ Parameters: dict mapping strs to values ; mouse event object ; 2D list of ints
 Returns: None
 '''
 def mousePressed(data, event, board):
-    position=getClickedCell(data,event)     
-    if(board=="user" and data["winner"]!=None):
-        clickUserBoard(data,position[0],position[1])
-    if((board=="comp") and (data["numships"]==5)):
-        runGameTurn(data,position[0],position[1])
+    position=getClickedCell(data,event)
+    if(data["winner"]==None):     
+        if(board=="user"):
+            clickUserBoard(data,position[0],position[1])
+        if((board=="comp") and (data["noofshipsadded"]==5)):
+            runGameTurn(data,position[0],position[1])
 
 #### WEEK 1 ####
 
@@ -159,14 +163,14 @@ Returns: None
 def drawGrid(data, canvas, grid, showShips):
     for i in range(0,data["rows"],1):
         for j in range(0,data["cols"],1):
-            if(grid[i][j]==SHIP_UNCLICKED):
+            y='blue'
+            if(grid[i][j]==SHIP_UNCLICKED and showShips):
                 y='yellow'
             elif(grid[i][j]==SHIP_CLICKED):
                 y='red'
             elif(grid[i][j]==EMPTY_CLICKED):
                 y='white'
-            else:
-                y='blue'
+            
                 #if(grid[i][j]==SHIP_UNCLICKED&showShips==False):
                     
             x1=data["cellsize"]*j
@@ -341,7 +345,6 @@ Parameters: dict mapping strs to values ; 2D list of ints ; int ; int ; str
 Returns: None
 '''
 def updateBoard(data, board, row, col, player):
-   
     if(board[row][col]==SHIP_UNCLICKED):
         board[row][col]=SHIP_CLICKED
     elif(board[row][col]==EMPTY_UNCLICKED):
@@ -420,10 +423,13 @@ Returns: None
 def drawGameOver(data, canvas):
     if(data["winner"]=="user"):
         canvas.create_text(100,50,text="Congralutions!! You are the winner",fill='black')
+        canvas.create_text(100,59,text="Press enter to play agian",fill="black")
     if(data["winner"]=="comp"):
         canvas.create_text(100,50,text="Try again!! You are Lost",fill='black')
+        canvas.create_text(100,59,text="Press enter to play agian",fill="black")
     if(data["winner"]=="draw"):
-        canvas.create_text(100,50,test="Draw match Out of moves",fill='black')
+        canvas.create_text(100,50,text="Draw match Out of moves",fill='black')
+        canvas.create_text(100,59,text="Press enter to play agian",fill="black")
     return
 
 
