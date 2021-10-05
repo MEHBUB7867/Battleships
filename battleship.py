@@ -224,7 +224,6 @@ def isHorizontal(ship):
     for i in range(len(ship)):
         if(ship[i][0]!=row):
             return False 
-    for i in range(len(ship)):
         col.append(ship[i][1])
     col.sort()
     for i in range(len(col)-1):
