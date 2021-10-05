@@ -258,10 +258,9 @@ Parameters: 2D list of ints ; 2D list of ints
 Returns: bool
 '''
 def shipIsValid(grid, ship):
-    if(checkShip(grid,ship)&(isVertical(ship)|isHorizontal(ship))):
+    if(checkShip(grid,ship) and (isVertical(ship) or isHorizontal(ship))):
         return True
-    else:
-        return False
+    return False
 
 '''
 placeShip(data)
