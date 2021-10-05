@@ -38,6 +38,10 @@ def makeModel(data):
     #data["Userboard"]=addShips(data["Userboard"],data["numships"])
     data["TemporaryShip"]=[]
     data["noofshipsadded"]=0
+    data["winner"]=None
+    data["maximumnoofturns"]=50
+    data["currentnoofturns"]=0
+    #maximum turns variable
     return
 # rows=10
     # columns=10
@@ -76,8 +80,6 @@ def mousePressed(data, event, board):
     position=getClickedCell(data,event)     
     if(board=="user"):
         clickUserBoard(data,position[0],position[1])
-    if((board=="comp") and (data["numships"]==5)):
-        runGameTurn(data,position[0],position[1])
     pass
 
 #### WEEK 1 ####
@@ -338,6 +340,8 @@ def updateBoard(data, board, row, col, player):
         board[row][col]=SHIP_CLICKED
     elif(board[row][col]==EMPTY_UNCLICKED):
         board[row][col]=EMPTY_CLICKED
+    if isGameOver(board):
+        data["winner"]=player
     return
 
 
@@ -348,8 +352,15 @@ Returns: None
 '''
 def runGameTurn(data, row, col):
     compuboa=data["Computerboard"]
+    userboa=data["Userboard"]
     if(compuboa[row][col]==SHIP_UNCLICKED or compuboa[row][col]==EMPTY_UNCLICKED):
-        updateBoard(data,x,row,col,"user")
+        updateBoard(data,compuboa,row,col,"user")
+        compCoordinates=getComputerGuess(userboa)
+        updateBoard(data,userboa,compCoordinates[0],compCoordinates[1],"computer")
+        data["currentnoofturns"]=data["currentnoofturns"]+1
+        if data["currentnoofturns"]==data["maximumnoofturns"]:
+            data["winner"]='draw'
+    #current turn and maximum turns condition
     return
 
 
@@ -359,8 +370,27 @@ Parameters: 2D list of ints
 Returns: list of ints
 '''
 def getComputerGuess(board):
+    #update should be done by using randint function
+    i=0
+    while(i<1):
+        row=randint(0,9)
+        col=randint(0,9)
+        if(board[row][col]==SHIP_UNCLICKED or board[row][col]==EMPTY_UNCLICKED):
+            i=i+1
+            return [row,col]
+    # for i in range(0,10,1):
+    #     for j in range(0,10,1):
+    #         if(board[i][j]==SHIP_UNCLICKED or board[i][j]==EMPTY_UNCLICKED):
+    #             return [i,j]
+    # row=randint(0,9)
+    # col=randint(0,9)
+    # while(board[row][col]==SHIP_UNCLICKED or board[row][col]==EMPTY_UNCLICKED):
+    #     return [row,col]
+# EMPTY_UNCLICKED = 1
+# SHIP_UNCLICKED = 2
+# EMPTY_CLICKED = 3
+# SHIP_CLICKED = 4
     
-    return
 
 
 '''
@@ -370,7 +400,6 @@ Returns: bool
 '''
 def isGameOver(board):
     return
-
 
 '''
 drawGameOver(data, canvas)
@@ -436,6 +465,8 @@ def runSimulation(w, h):
 
 # This code runs the test cases to check your work
 if __name__ == "__main__":
+    #test.testGetComputerGuess()
+    #test.testIsGameOver()
     #test.testUpdateBoard()
     #test.testGrid()
     #test.testDrawGrid()
