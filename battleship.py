@@ -399,7 +399,12 @@ Parameters: 2D list of ints
 Returns: bool
 '''
 def isGameOver(board):
-    return
+    for row in range(len(board)):
+        for col in range(len(board[0])):
+            if(board[row][col]==SHIP_UNCLICKED):
+                return False
+    return True
+
 
 '''
 drawGameOver(data, canvas)
