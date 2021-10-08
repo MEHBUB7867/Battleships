@@ -423,13 +423,13 @@ Returns: None
 def drawGameOver(data, canvas):
     if(data["winner"]=="user"):
         canvas.create_text(100,50,text="Congralutions!! You are the winner",fill='black')
-        canvas.create_text(100,59,text="Press enter to play agian",fill="black")
+        canvas.create_text(100,60,text="Press enter to play agian",fill="black")
     if(data["winner"]=="comp"):
-        canvas.create_text(100,50,text="Try again!! You are Lost",fill='black')
-        canvas.create_text(100,59,text="Press enter to play agian",fill="black")
+        canvas.create_text(100,50,text="You are lost",fill='black')
+        canvas.create_text(100,60,text="Press enter to play agian",fill="black")
     if(data["winner"]=="draw"):
         canvas.create_text(100,50,text="Draw match Out of moves",fill='black')
-        canvas.create_text(100,59,text="Press enter to play agian",fill="black")
+        canvas.create_text(100,60,text="Press enter to play agian",fill="black")
     return
 
 
@@ -488,6 +488,9 @@ def runSimulation(w, h):
 
 # This code runs the test cases to check your work
 if __name__ == "__main__":
+    #test.testupdatBoard()
+    #test.testIsvertical()
+    #test.testIsHorizontal()
     #test.testGetComputerGuess()
     #test.testIsGameOver()
     #test.testUpdateBoard()
